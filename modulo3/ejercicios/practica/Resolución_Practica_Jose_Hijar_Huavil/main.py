@@ -16,25 +16,26 @@ def menu():
         
         opcion = input("Seleccione una opción: ")
 
-        if opcion == "1":
-            admin.agregar_bus()
-        elif opcion == "2":
-            admin.agregar_ruta_bus()
-        elif opcion == "3":
-            admin.registrar_horario_bus()
-        elif opcion == "4":
-            admin.agregar_conductor()
-        elif opcion == "5":
-            admin.agregar_horario_conductor()
-        elif opcion == "6":
-            admin.asignar_bus_conductor()
-        elif opcion == "7":
-            admin.mostrar_informacion()
-        elif opcion == "8":
-            print("Saliendo del programa.")
-            break
-        else:
-            print("Opción no válida. Intenta de nuevo.")
+        match opcion:
+            case "1":
+                admin.agregar_bus()
+            case "2":
+                admin.agregar_ruta_bus()
+            case "3":
+                admin.registrar_horario_bus()
+            case "4":
+                admin.agregar_conductor()
+            case "5":
+                admin.agregar_horario_conductor()
+            case "6":
+                admin.asignar_bus_conductor()
+            case "7":
+                admin.mostrar_informacion()
+            case "8":
+                print("Saliendo del programa.¡Hasta luego!")
+                break
+            case _:
+                print("Opción no válida. Por favor, intente nuevamente.")
 
 if __name__ == "__main__":
     menu()
