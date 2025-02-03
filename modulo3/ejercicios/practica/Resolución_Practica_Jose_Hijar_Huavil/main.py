@@ -4,7 +4,7 @@ def menu():
     admin = Admin()
     
     while True:
-        print("\n----- MENÚ -----")
+        print("\n----- MENÚ GESTIÓN DE TICKETS -----")
         print("1. Agregar bus")
         print("2. Agregar ruta a bus")
         print("3. Registrar horario a bus")
