@@ -12,3 +12,4 @@ for i in range(2012,2014):
     f =open(newRuta,mode='a') 
     texto=f'\neste es el reporte {i}'
     f.write(texto)
+    
