@@ -24,7 +24,7 @@ def menu(app:App):
             pass
         elif opcion == "2":           
             GenerateReportVentas(app)
-            GenerateReportVentas2(app)
+            GenerateReportPaisesMenosCompraron(app)
             pass
         elif opcion == "3":
             pass
