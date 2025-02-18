@@ -22,9 +22,22 @@ def IngestDataProducts(app:App):
     createTableVentas(conn)
     insertManyVentas(bd,dataVentas)
 
+    dataSegmentos = GetDataSourceSegmentos()
+    CreateTableSegmentos(conn)
+    InsertDataSegmentos(bd, dataSegmentos)
+
+    dataMercados = GetDataSourceMercados()
+    CreateTableMercados(conn)
+    InsertDataMercados(bd, dataMercados)
+
+    dataRegiones = GetDataSourceRegiones()
+    CreateTableRegiones(conn)
+    InsertDataRegiones(bd, dataRegiones)
+
+
 
 def GetDataSourcePais():
-    pathData="/workspaces/workspacepy0125v2/proyecto/files/datafuente.xls"
+    pathData="/workspaces/workspacepy0125vteoria/proyecto/files/datafuente.xls"
     df=pd.read_excel(pathData,sheet_name="Orders")
     print(df.shape)
     print(df.keys())
@@ -42,7 +55,7 @@ def InsertDataPais(bd:Database,data):
 
 
 def GetDatoSourcePostalCode():
-    pathData="/workspaces/workspacepy0125v2/proyecto/files/datafuente.xls"
+    pathData="/workspaces/workspacepy0125vteoria/proyecto/files/datafuente.xls"
     df=pd.read_excel(pathData,sheet_name="Orders")
     df['Postal Code'] = df['Postal Code'].astype(str)
     df_postalCode=df[['Postal Code','Country','State']]
@@ -61,7 +74,7 @@ def InsertDataPostalCode(bd:Database,data):
     bd.insert_many('POSTALCODE',['code','pais','state'],data)
 
 def GetDataSourceCategories():
-    pathData="/workspaces/workspacepy0125v2/proyecto/files/datafuente.xls"
+    pathData="/workspaces/workspacepy0125vteoria/proyecto/files/datafuente.xls"
     df=pd.read_excel(pathData,sheet_name="Orders")
     df_categories=df[['Category','Sub-Category']].dropna().drop_duplicates()
     categories_tuples=[tuple(x) for x in df_categories.to_records(index=False)]
@@ -76,7 +89,7 @@ def InsertManyCategories(bd:Database,data):
 
 
 def GetDataSourceProductos(conn):
-    pathData="/workspaces/workspacepy0125v2/proyecto/files/datafuente.xls"
+    pathData="/workspaces/workspacepy0125vteoria/proyecto/files/datafuente.xls"
     df=pd.read_excel(pathData,sheet_name="Orders")
     df_products=df[['Product ID','Product Name','Category']].dropna().drop_duplicates()
     df_categoria=pd.read_sql_query("SELECT id,name FROM CATEGORIAS",conn)
@@ -96,7 +109,7 @@ def InsertManyProducts(bd:Database,data):
 
 
 def GetDatasourceOrders(conn):
-    pathData="/workspaces/workspacepy0125v2/proyecto/files/datafuente.xls"
+    pathData="/workspaces/workspacepy0125vteoria/proyecto/files/datafuente.xls"
     df=pd.read_excel(pathData,sheet_name="Orders")
     df_products=pd.read_sql_query("SELECT id,name,product_id FROM PRODUCTOS",conn)
     df_orders=df[['Order ID','Postal Code','Product ID','Sales','Quantity','Discount','Profit','Shipping Cost','Order Priority']].dropna().drop_duplicates()
@@ -116,5 +129,50 @@ def createTableVentas(conn):
 def insertManyVentas(bd:Database,data):
     bd.insert_many('VENTAS',['order_id','postal_code','product_id','sales_amount','quantity','discount','profit','shipping_cost','order_priority'],data)
 
+
+
+def GetDataSourceSegmentos():
+    pathData = "/workspaces/workspacepy0125vteoria/proyecto/files/datafuente.xls"
+    df = pd.read_excel(pathData, sheet_name="Orders")
+    df_segmentos = df['Segment'].dropna().unique()  # Extraer los segmentos únicos
+    segmentos_tuples = [(segment,) for segment in df_segmentos]  # Convertir a lista de tuplas
+    return segmentos_tuples
+
+def CreateTableSegmentos(conn: Connection):
+    segmentos = Segmentos()
+    segmentos.create_table(conn)
+
+def InsertDataSegmentos(bd: Database, data):
+    bd.insert_many('SEGMENTOS', ['name'], data)
+
+
+def GetDataSourceMercados():
+    pathData = "/workspaces/workspacepy0125vteoria/proyecto/files/datafuente.xls"
+    df = pd.read_excel(pathData, sheet_name="Orders")
+    df_mercados = df['Market'].dropna().unique()  # Extraer mercados únicos
+    mercados_tuples = [(market,) for market in df_mercados]
+    return mercados_tuples
+
+def CreateTableMercados(conn: Connection):
+    mercados = Mercados()
+    mercados.create_table(conn)
+
+def InsertDataMercados(bd: Database, data):
+    bd.insert_many('MERCADOS', ['name'], data)
+
+
+def GetDataSourceRegiones():
+    pathData = "/workspaces/workspacepy0125vteoria/proyecto/files/datafuente.xls"
+    df = pd.read_excel(pathData, sheet_name="Orders")
+    df_regiones = df['Region'].dropna().unique()  # Extraer regiones únicas
+    regiones_tuples = [(region,) for region in df_regiones]
+    return regiones_tuples
+
+def CreateTableRegiones(conn: Connection):
+    regiones = Regiones()
+    regiones.create_table(conn)
+
+def InsertDataRegiones(bd: Database, data):
+    bd.insert_many('REGIONES', ['name'], data)
 
     

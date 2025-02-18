@@ -11,7 +11,7 @@ def menu(app:App):
     while True:
         menu_text= Text()
         menu_text.append("\n📊 [bold cyan]Proyecto Datux[/bold cyan]\n", style="underline bold")
-        menu_text.append("\n[1] 🟢 Ingestar Data\n", style="green")
+        menu_text.append("\n[1] 🟢 Ingresar Data\n", style="green")
         menu_text.append("[2] 📈 Reporte de Ventas\n", style="blue")
         menu_text.append("[3] ❌ Salir\n", style="red")
 
@@ -24,6 +24,7 @@ def menu(app:App):
             pass
         elif opcion == "2":           
             GenerateReportVentas(app)
+            GenerateReportVentas2(app)
             pass
         elif opcion == "3":
             pass
